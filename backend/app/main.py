@@ -27,7 +27,7 @@ app = FastAPI(
 # CORS middleware configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],  # Next.js dev server
+    allow_origins=["http://localhost:3000", "quiz.pythonaidev.com", "https://frontend-lovat-theta-74.vercel.app", "frontend-lovat-theta-74.vercel.app", "http://127.0.0.1:3000"],  # Next.js dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

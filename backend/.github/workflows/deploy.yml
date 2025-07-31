@@ -25,22 +25,22 @@ jobs:
         run: |
           ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
             # Navigate to project directory
-            cd /home/patrick/backend
+            cd /home/patrick/quiz-system/backend
             
             # Configure git to use SSH
-            git remote set-url origin git@github.com:patrickskyman/aliexpress-affiliate-app.git
+            git remote set-url origin git@github.com:patrickskyman/quiz-system.git
             
             # Pull latest changes
             git fetch origin main
             git reset --hard origin/main
             
             # Activate virtual environment and install dependencies
-            source aliexpress-affiliate-app_env/bin/activate
+            source backend_env/bin/activate
             pip3 install -r requirements.txt
             
           
             # Restart services
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S systemctl restart gunicorn-aliexpress
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S systemctl restart gunicorn-quiz-system.socket
             echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S systemctl restart nginx
           EOF
       
