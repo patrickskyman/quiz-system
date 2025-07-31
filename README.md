@@ -1,21 +1,39 @@
 # Quiz System - AI-Powered Q&A Platform
 
-A modern web application for AI-powered Q&A using ChatGPT integration, built with Next.js frontend and FastAPI backend.
+This is a modern web application for AI-powered Q&A using ChatGPT integration, built with Next.js frontend and FastAPI backend and serves as an AI-Powered Travel Documentation Helper.
 
 ## 🏗️ Project Structure
 
 ```
 quiz-system/
-├── frontend/          # Next.js React application
-│   ├── src/
-│   ├── package.json
-│   └── ...
-├── backend/           # FastAPI Python application
+├── backend/
 │   ├── app/
-│   ├── requirements.txt
-│   └── ...
-├── .gitignore         # Root-level gitignore
-└── README.md          # This file
+│   │   ├── __init__.py
+│   │   ├── main.py              # FastAPI app and configuration
+│   │   ├── models.py            # Pydantic models
+│   │   ├── database.py          # Database operations
+│   │   ├── services/
+│   │   │   └── openai_service.py # OpenAI API integration
+│   │   └── routers/
+│   │       └── chat.py          # Chat endpoints
+│   ├── requirements.txt         # Python dependencies
+├   ├── README.md                # Backend README
+│   └── .env                    # Environment variables template (The file is referenced here; 3. **Configure environment variables:**)
+├── frontend/
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── layout.tsx       # Root layout
+│   │   │   ├── page.tsx         # Home page
+│   │   │   └── globals.css      # Global styles
+│   │   ├── components/
+│   │   │   ├── ChatInterface.tsx # Main chat component
+│   │   │   └── QueryHistory.tsx  # History sidebar
+│   │   └── lib/
+│   │       └── api.ts           # API utilities
+│   ├── package.json             # Node.js dependencies
+│   ├── tailwind.config.js       # Tailwind configuration
+│   └── README.md                # Frontedn README file
+└── README.md                    # This file
 ```
 
 ## 🚀 Quick Start
@@ -27,24 +45,18 @@ quiz-system/
 
 ### Frontend Setup
 ```bash
-cd frontend
-npm install
-npm run dev
+Refer to Frontend README 
 ```
 
 ### Backend Setup
 ```bash
-cd backend
-python -m venv app_env
-source app_env/bin/activate  # On Windows: app_env\Scripts\activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
+Refer to Backend README 
 ```
 
 ## 🌐 Deployment
 
 ### Frontend (Vercel)
-The frontend is configured for Vercel deployment. Simply connect your GitHub repository to Vercel and it will automatically deploy from the `frontend/` directory.
+The frontend is configured for Vercel deployment. Connect your GitHub repository to Vercel and it will automatically deploy from the `frontend/` directory.
 
 **Vercel Configuration:**
 - Root Directory: `frontend`
@@ -56,41 +68,73 @@ The backend is designed to run on a VPS with the following setup:
 
 1. **Clone the repository:**
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/patrickskyman/quiz-system
 cd quiz-system/backend
 ```
 
 2. **Set up Python environment:**
 ```bash
-python -m venv app_env
+python3 -m venv app_env
 source app_env/bin/activate
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
-
 3. **Configure environment variables:**
 ```bash
-cp env.example .env
-# Edit .env with your OpenAI API key and other settings
+sudo nano .env
+# Edit .env with the OpenAI API key and other settings as shown below
+# OpenAI Configuration
+OPENAI_API_KEY=replace_with_your_api_key_here
+
+# API Configuration
+API_HOST=0.0.0.0
+API_PORT=8000
+API_RELOAD=true
+
+# Environment
+ENVIRONMENT=development
+
+# Logging
+LOG_LEVEL=INFO
+
+# CORS Origins (comma-separated)
+ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+
+# Rate Limiting (requests per minute)
+RATE_LIMIT=60
+
+# Security
+SECRET_KEY=******
+ALGORITHM=HS256
+
+# Production Database (PostgreSQL)
+DATABASE_URL=postgresql://user:password@localhost/dbname 
+
+
+# Optional: Redis for caching
+# REDIS_URL=redis://localhost:6379/0
 ```
 
 4. **Run with Gunicorn (production):**
 ```bash
-gunicorn app.main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+gunicorn --workers 3 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 app.main:app
 ```
 
 5. **Set up reverse proxy (Nginx):**
 ```nginx
 server {
-    listen 80;
-    server_name your-domain.com;
+    server_name your_domain.com;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /home/your_name/quiz-system/backend;
+    }
 
     location / {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn-quiz-system.sock;
     }
+
+
 }
 ```
 
@@ -101,19 +145,35 @@ server {
 NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
 
-### Backend (.env)
-```env
-OPENAI_API_KEY=your_openai_api_key_here
-DATABASE_URL=sqlite:///./qa_system.db
-```
 
 ## 📦 Development Workflow
 
 1. **Make changes** in either frontend or backend
+## Step 1 - Committing Changes in the Backend (Main Repo)
+```bash
+git add .
+git commit -m "Update backend logic ..."
+git push origin main
+```
+## Step 2 - Committing Changes in the Frontend (Submodule)
+```bash
+cd frontend
+git add .
+git commit -m "Update frontend UI"
+git push origin main
+```
+## Step 3 - Update Submodule Reference in Main Repo
+```bash
+cd ..
+git add frontend
+git commit -m "Update frontend submodule reference"
+git push origin main
+```
+
 2. **Test locally** using the setup commands above
 3. **Commit and push** to GitHub
 4. **Vercel automatically deploys** the frontend
-5. **Manually deploy** backend changes to your VPS
+5. **Automatically deploy** backend changes to your VPS once the changes are pushed to Github
 
 ## 🔄 Continuous Deployment
 
@@ -123,26 +183,13 @@ DATABASE_URL=sqlite:///./qa_system.db
 - Preview deployments for pull requests
 
 ### Backend (Manual)
-- SSH into your VPS
-- Pull latest changes: `git pull origin main`
-- Restart the service: `sudo systemctl restart your-app`
+- The changes reflect directly to the server since the GitHub Actions have been integrated successfully
+check - the file
+```bash
+.github/workflows/deploy.yml
+```
 
 ## 🛠️ Development Scripts
-
-### Root Level (Optional)
-You can add these scripts to the root `package.json` for convenience:
-
-```json
-{
-  "scripts": {
-    "dev:frontend": "cd frontend && npm run dev",
-    "dev:backend": "cd backend && uvicorn app.main:app --reload",
-    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
-    "build:frontend": "cd frontend && npm run build",
-    "install:all": "cd frontend && npm install && cd ../backend && pip install -r requirements.txt"
-  }
-}
-```
 
 ## 📝 API Documentation
 

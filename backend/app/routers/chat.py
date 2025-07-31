@@ -171,8 +171,7 @@ async def get_stats():
 async def delete_query(query_id: int):
     """Delete a query from history"""
     try:
-        # For now, we'll just return success
-        # In a real implementation, you'd mark the query as deleted
+        # Currently we just return success
         return {
             "message": f"Query {query_id} deleted successfully",
             "success": True

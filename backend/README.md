@@ -1,6 +1,9 @@
+View it live here: https://frontend-lovat-theta-74.vercel.app
+Backend is live here: https://quiz.pythonaidev.com/
+
 # Interactive Q&A System with ChatGPT Integration
 
-A modern full-stack web application that serves as an interactive Q&A system using ChatGPT API integration. Built with FastAPI backend and Next.js frontend, featuring a beautiful UI and comprehensive travel documentation assistance.
+A modern full-stack web application that serves as an interactive Q&A system using ChatGPT API integration. Built with FastAPI backend and Next.js frontend, and offers a beautiful UI and comprehensive travel documentation assistance.
 
 ## 🚀 Features
 
@@ -41,7 +44,7 @@ A modern full-stack web application that serves as an interactive Q&A system usi
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/qa-system.git
+git clone https://github.com/patrickskyman/quiz-system
 cd qa-system
 ```
 
@@ -52,21 +55,21 @@ cd qa-system
 cd backend
 
 # Create virtual environment
-python -m venv venv
+python -m venv backend_env
 
 # Activate virtual environment
 # On Windows:
-venv\Scripts\activate
+backend_env\Scripts\activate
 # On macOS/Linux:
-source venv/bin/activate
+source backend_env/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 
 # Create environment file
-cp .env.example .env
+sudo nano .env
 
-# Edit .env file and add your OpenAI API key
+# Edit .env file and add your OpenAI API key and other 
 # OPENAI_API_KEY=your_openai_api_key_here
 ```
 
@@ -92,7 +95,7 @@ cp .env.local.example .env.local
 2. Sign up or log in to your account
 3. Navigate to API Keys section
 4. Create a new API key
-5. Copy the key and add it to your backend `.env` file
+5. Copy the key and add it to the backend `.env` file
 
 ## 🚀 Running the Application
 
@@ -100,36 +103,30 @@ cp .env.local.example .env.local
 
 ```bash
 cd backend
+
+#Create your virtual environement
+python3 -m venv backend_env
 # Make sure virtual environment is activated
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source backend_env/bin/activate  # On Windows: venv\Scripts\activate
+#Install requirements
+pip3 install -r requirements.txt
 
 # Run the FastAPI server
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-The backend will be available at: `http://localhost:8000`
-- API Documentation (Swagger): `http://localhost:8000/docs`
-- Alternative Documentation (ReDoc): `http://localhost:8000/redoc`
+The backend will be available at: `http://localhost:8000` or `https://quiz.pythonaidev.com`
+- API Documentation (Swagger): `http://localhost:8000/docs` or `https://quiz.pythonaidev.com/docs`
+- Alternative Documentation (ReDoc): `http://localhost:8000/redoc` or  `https://quiz.pythonaidev.com/redoc`
 
-### Start the Frontend Development Server
-
-```bash
-cd frontend
-npm run dev
-```
-
-The frontend will be available at: `http://localhost:3000`
 
 ## 📖 Usage
 
 ### Example Queries
 
-The system is optimized for travel documentation queries. Try these examples:
+The system is optimized for travel documentation queries. Examples:
 
-1. **"What documents do I need to travel from Kenya to Ireland?"**
-2. **"Visa requirements for US citizens traveling to Japan"**
-3. **"What are the passport requirements for traveling to Dubai?"**
-4. **"Documents needed for a business trip to Germany from Nigeria"**
+1. **"Tell me about the travel requirements to the US."**
 
 ### API Endpoints
 
@@ -138,17 +135,6 @@ The system is optimized for travel documentation queries. Try these examples:
 - `GET /api/chat/stats` - Get system statistics
 - `GET /health` - Health check endpoint
 - `GET /docs` - Interactive API documentation
-
-## 🎨 UI Features
-
-- **Modern Design**: Glassmorphism effects and gradient backgrounds
-- **Responsive Layout**: Works perfectly on desktop, tablet, and mobile
-- **Loading States**: Beautiful loading animations and progress indicators
-- **Error Handling**: User-friendly error messages and retry options
-- **Copy Functionality**: Copy AI responses to clipboard
-- **History Sidebar**: Browse and reload previous conversations
-- **Search**: Search through query history
-- **Pagination**: Efficient pagination for large query histories
 
 ## 🔧 Configuration
 
@@ -182,22 +168,9 @@ NEXT_PUBLIC_ENABLE_ANALYTICS=false
 ### Backend Deployment Options
 
 1. **Railway**: Easy Python app deployment
-2. **Render**: Free tier available
+2. **Render**
 3. **Heroku**: Classic PaaS platform
 4. **DigitalOcean App Platform**: Managed container service
-
-### Frontend Deployment Options
-
-1. **Vercel**: Recommended for Next.js (automatic)
-2. **Netlify**: JAMstack platform
-3. **AWS Amplify**: AWS hosting service
-
-### Environment Variables for Production
-
-Make sure to set these environment variables in your production environment:
-- `OPENAI_API_KEY`
-- `DATABASE_URL` (consider PostgreSQL for production)
-- `NEXT_PUBLIC_API_URL` (your backend URL)
 
 ## 📊 Project Structure
 
@@ -214,21 +187,8 @@ quiz-system/
 │   │   └── routers/
 │   │       └── chat.py          # Chat endpoints
 │   ├── requirements.txt         # Python dependencies
-│   └── .env.example            # Environment variables template
-├── frontend/
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── layout.tsx       # Root layout
-│   │   │   ├── page.tsx         # Home page
-│   │   │   └── globals.css      # Global styles
-│   │   ├── components/
-│   │   │   ├── ChatInterface.tsx # Main chat component
-│   │   │   └── QueryHistory.tsx  # History sidebar
-│   │   └── lib/
-│   │       └── api.ts           # API utilities
-│   ├── package.json             # Node.js dependencies
-│   ├── tailwind.config.js       # Tailwind configuration
-│   └── .env.local.example       # Environment variables template
+│   └── .env                     # Environment variables template
+├
 └── README.md                    # This file
 ```
 
@@ -252,59 +212,9 @@ npm run test
 
 The FastAPI backend automatically generates interactive API documentation:
 
-- **Swagger UI**: `http://localhost:8000/docs`
+- **Swagger UI**: `http://localhost:8000/docs` or 
 - **ReDoc**: `http://localhost:8000/redoc`
-
-## 🎯 Assessment Criteria Alignment
-
-### Code Quality (40%)
-- ✅ Clean, well-documented code with type hints
-- ✅ Proper error handling throughout the application
-- ✅ Organized code structure with separation of concerns
-- ✅ RESTful API design with proper HTTP status codes
-
-### Technical Implementation (30%)
-- ✅ Successful integration of FastAPI, Next.js, and OpenAI API
-- ✅ Responsive design with modern features
-- ✅ Proper use of async/await patterns
-- ✅ Environment variable management
-- ✅ Database integration with SQLite
-
-### UI/UX Design (30%)
-- ✅ Modern, visually appealing design with TailwindCSS
-- ✅ Fully responsive across all device sizes
-- ✅ Intuitive user interaction flow
-- ✅ Loading states and error handling
-- ✅ Smooth animations and transitions
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- OpenAI for providing the ChatGPT API
-- FastAPI team for the excellent framework
-- Next.js team for the React framework
-- TailwindCSS for the utility-first CSS framework
-- The open-source community for various libraries used
-
-## 📞 Support
-
-If you encounter any issues or have questions:
-
-1. Check the [Issues](https://github.com/patrickskyman/quiz-system/issues) page
-2. Create a new issue with detailed information
-3. Include error messages and steps to reproduce
 
 ---
 
-**Built with ❤️ for the Interactive Q&A System Assessment**
+**Built for the Interactive Q&A System Assessment offerered by Pawa IT**
