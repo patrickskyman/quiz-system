@@ -140,10 +140,23 @@ server {
 
 ## 🔧 Environment Variables
 
-### Frontend (.env.local)
-```env
-NEXT_PUBLIC_API_URL=http://localhost:8000
+### Frontend Environment Setup
+
+**For Local Development:**
+```bash
+cd frontend
+cp env.local.example .env.local
+# Edit .env.local if needed (defaults to http://localhost:8000)
 ```
+
+**For Production (Vercel):**
+- Add environment variables in Vercel dashboard:
+  - `NEXT_PUBLIC_API_URL`: Your VPS backend URL (e.g., `https://your-backend-domain.com`)
+
+**Environment Files:**
+- `.env.local` - Local development (gitignored)
+- `.env.development` - Development builds (gitignored)
+- `.env.production` - Production builds (gitignored)
 
 
 ## 📦 Development Workflow
